@@ -41,7 +41,7 @@ const WeatherDetail = ({cities, getWeatherIcon}) => {
             ) : (
                 <ul>
                     {weather.time.map((date, i) => (
-                        <li key={date}>{date}：{weather.temp_max[i]}℃ {getWeatherIcon(weather.code[i])}</li>
+                        <li key={date}>{date}：最高気温: {weather.temp_max[i]}℃ {getWeatherIcon(weather.code[i])}</li>
                     ))}
                 </ul>
             )}

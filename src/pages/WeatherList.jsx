@@ -14,14 +14,13 @@ const WeatherList = ({cities, getWeatherIcon}) => {
             cities.map(async city => {
                 try {
                     const response = await axios.get(
-                        `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&hourly=weather_code&models=jma_seamless&current=temperature_2m,is_day,weather_code&forecast_days=1`
+                        `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,weather_code&forecast_days=1`
                     )
                     const weather = response.data.current
                     console.log(city.name, weather)
                     return {
                         id: city.id,
                         name: city.name,
-                        time: weather.time,
                         temperature: weather.temperature_2m,
                         code: weather.weather_code
                     }
@@ -47,7 +46,7 @@ const WeatherList = ({cities, getWeatherIcon}) => {
             <ul>
                 {weatherList.map((city) => (
                     <li key={city.id} onClick={() => displayDetail(city.id)}>
-                        {city.name} {city.time} {city.temperature}℃ {getWeatherIcon(city.code)}
+                        {city.name}  現在気温: {city.temperature}℃ {getWeatherIcon(city.code)}
                     </li>
                 ))}
             </ul>
