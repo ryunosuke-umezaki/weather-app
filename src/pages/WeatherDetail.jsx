@@ -12,8 +12,9 @@ const WeatherDetail = ({cities, getWeatherIcon}) => {
         const cityObject = cities.find(city => city.id === id)
         setCityName(cityObject.name)
 
-        axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${cityObject.lat}&longitude=${cityObject.lon}&daily=weather_code,temperature_2m_max`)
-            .then(response => {
+        const fetchWeather = async () => {
+            try {
+                const response = await axios.get(`https://api.open-meteo.com/v1/forecast?latitude=${cityObject.lat}&longitude=${cityObject.lon}&daily=weather_code,temperature_2m_max`)
                 const dailyWeather = response.data.daily
                 console.log(response)
                 setWeather({
@@ -21,10 +22,12 @@ const WeatherDetail = ({cities, getWeatherIcon}) => {
                     code: dailyWeather.weather_code,
                     time: dailyWeather.time
                 })
-            })
-            .catch(e => {
-                console.log('error: ', e)
-            })
+            }
+            catch (error) {
+                console.log('error: ', error)
+            }
+        }
+        fetchWeather();
     }, [id])
 
     const backList = () => navigate('/')
