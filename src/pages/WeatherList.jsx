@@ -43,13 +43,27 @@ const WeatherList = ({cities, getWeatherIcon}) => {
 
     return (
         <>
-            <ul>
+        <div style = {{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'flex-start',
+            padding: '0',
+        }}>
                 {weatherList.map((city) => (
-                    <li key={city.id} onClick={() => displayDetail(city.id)}>
-                        {city.name}  現在気温: {city.temperature}℃ {getWeatherIcon(city.code)}
-                    </li>
+                    <div key={city.id} onClick={() => displayDetail(city.id)}
+                        style={{
+                            border: '2px solid #gray',
+                            padding: '24px 32px',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            flex: '0 0 220px'
+                        }}>
+                        <h2>{city.name}</h2>  現在気温: {city.temperature}℃ {getWeatherIcon(city.code)}
+                    </div>
                 ))}
-            </ul>
+            </div>
         </>
     )
 }
