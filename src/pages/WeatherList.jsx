@@ -10,10 +10,6 @@ const WeatherList = ({cities, getWeatherIcon, session}) => {
     
 
     useEffect(() => {
-        if(!session) {
-            navigate("/signin")
-        }
-
     const fetchWeather = async () => {
         const results = await Promise.all(
             cities.map(async city => {
@@ -38,7 +34,10 @@ const WeatherList = ({cities, getWeatherIcon, session}) => {
         setWeatherList(results.filter(Boolean))
         }
         fetchWeather()
-    }, [])
+        if(!session) {
+            navigate("/signin")
+        }
+    }, [session])
 
     const displayDetail = (id) => {
         const cityDetail = cities.find(city => city.id === id)
