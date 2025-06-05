@@ -1,14 +1,19 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { supabase } from "../login/SignInForm"
 
 
-const WeatherList = ({cities, getWeatherIcon}) => {
+const WeatherList = ({cities, getWeatherIcon, session}) => {
     const [weatherList, setWeatherList] = useState([])
     const navigate = useNavigate()
     
 
     useEffect(() => {
+        if(!session) {
+            navigate("/signin")
+        }
+
     const fetchWeather = async () => {
         const results = await Promise.all(
             cities.map(async city => {
@@ -41,6 +46,11 @@ const WeatherList = ({cities, getWeatherIcon}) => {
         navigate(`city/${id}`)
     }
 
+    const SignOut = async () => {
+        await supabase.auth.signOut()
+        navigate("/signin")
+    }
+
     return (
         <>
         <div style = {{
@@ -49,6 +59,7 @@ const WeatherList = ({cities, getWeatherIcon}) => {
             justifyContent: 'flex-start',
             padding: '0',
         }}>
+            <button onClick={()=> SignOut()}>ログアウト</button>
                 {weatherList.map((city) => (
                     <div key={city.id} onClick={() => displayDetail(city.id)}
                         style={{
@@ -63,7 +74,7 @@ const WeatherList = ({cities, getWeatherIcon}) => {
                         <h2>{city.name}</h2>  現在気温: {city.temperature}℃ {getWeatherIcon(city.code)}
                     </div>
                 ))}
-            </div>
+        </div>
         </>
     )
 }
