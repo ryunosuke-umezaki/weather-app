@@ -3,8 +3,12 @@ import './App.css'
 import WeatherCity from './pages/WeatherCity'
 import WeatherList from './pages/WeatherList'
 import WeatherDetail from './pages/WeatherDetail'
+import SignUp from './login/SignInForm'
+import { useState } from 'react'
+
 
 function App() {
+  const [session, setSession] = useState(null);
   const cities = [
     { id: "Tokyo", name: "Tokyo", lat: 35.6895, lon: 139.6917 },
     { id: "NewYork", name: "New York", lat: 40.7128, lon: -74.0060 },
@@ -35,10 +39,13 @@ function App() {
       return "undefined";
     }
 
+
+
   return (
     <>
     <Routes>
-      <Route index element={<WeatherList cities={cities} getWeatherIcon={getWeatherIcon} />} />
+      <Route path='/' element={<WeatherList session={session} cities={cities} getWeatherIcon={getWeatherIcon} />} />
+      <Route index path='/signin' element={<SignUp session={session} setSession={setSession} />}></Route>
       <Route path='/city' element={<WeatherCity />}>
         <Route path=':id' element={<WeatherDetail cities={cities} getWeatherIcon={getWeatherIcon} />} />
       </Route>
